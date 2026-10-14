@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Felices 2 Meses de Amor! 💕</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #fde2e4 35%, #ffcad4 70%, #f4acb7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #4a3e3d;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-serif-romantic {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(244, 114, 182, 0.2);
+        }
+
+        .glass-card-dark {
+            background: rgba(255, 241, 242, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 113, 133, 0.2);
+            box-shadow: 0 10px 30px -5px rgba(225, 29, 72, 0.15);
+        }
+
+        /* Polaroid Effect */
+        .polaroid-frame {
+            background: #ffffff;
+            padding: 12px 12px 20px 12px;
+            box-shadow: 0 15px 35px rgba(225, 29, 72, 0.15), 0 5px 15px rgba(0,0,0,0.07);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        @media (min-width: 640px) {
+            .polaroid-frame {
+                padding: 16px 16px 24px 16px;
+            }
+        }
+
+        .polaroid-frame:hover {
+            transform: scale(1.02) rotate(0deg);
+            box-shadow: 0 20px 40px rgba(225, 29, 72, 0.25);
+        }
+
+        /* Pulsing Glow */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+
+        .animate-float {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.4)); }
+            50% { filter: drop-shadow(0 0 18px rgba(244, 63, 94, 0.7)); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Background Canvas */
+        #petalCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fce7f3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f43f5e;
+            border-radius: 10px;
+        }
+
+        /* Shimmer Button */
+        .btn-shimmer {
+            background: linear-gradient(110deg, #fb7185 0%, #e11d48 45%, #f43f5e 55%, #fda4af 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="py-4 px-2 sm:px-6">
+
+    <!-- Audio Element for local musica.mp3 -->
+    <audio id="bgAudio" src="musica.mp3" loop preload="auto"></audio>
+
+    <!-- Canvas background for floating heart petals -->
+    <canvas id="petalCanvas"></canvas>
+
+    <div class="main-container max-w-4xl mx-auto">
+
+        <!-- Top Navigation Bar -->
+        <div class="flex justify-between items-center gap-2 mb-4 sm:mb-6 px-1">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-full bg-white/90 text-rose-600 shadow-sm backdrop-blur">
+                <i class="fa-solid fa-sparkles text-rose-500"></i>
+                <span>2 Meses Juntos</span>
+            </span>
+
+            <div class="flex items-center gap-2">
+                <!-- Music Toggle -->
+                <button id="musicBtn" class="flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-white text-rose-600 shadow-sm transition-all duration-300 active:scale-95">
+                    <i id="musicIcon" class="fa-solid fa-music text-rose-500"></i>
+                    <span id="musicText">Música</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Title Header -->
+        <header class="text-center my-4 sm:my-8 animate-float">
+            <span class="text-xs sm:text-sm uppercase tracking-widest text-rose-500 font-semibold mb-1 block">Nuestra Historia de Amor</span>
+            <h1 class="text-3xl sm:text-6xl md:text-7xl font-cursive text-rose-600 font-bold drop-shadow-sm mb-2 leading-tight">
+                ¡Felices 2 Meses!
+            </h1>
+            <p id="namesHeading" class="text-base sm:text-xl text-rose-800 font-medium font-serif-romantic italic">
+                Para el amor de mi vida 💕
+            </p>
+        </header>
+
+        <!-- Content Grid: Photo + Countdown -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-12">
+            
+            <!-- Polaroid Photo Section -->
+            <div class="flex flex-col items-center">
+                <div class="polaroid-frame rounded-lg max-w-[290px] sm:max-w-sm w-full transform -rotate-1 sm:-rotate-2">
+                    <div class="relative overflow-hidden rounded bg-rose-50 aspect-[4/5] flex items-center justify-center group">
+                        <img id="couplePhoto" 
+                             src="foto.jpg" 
+                             alt="Nuestra foto especial" 
+                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             onerror="this.src='https://placehold.co/600x750/fce7f3/9d174d?text=Coloca+tu+foto.jpg'">
+                        
+                        <!-- Floating Heart Tag -->
+                        <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur rounded-full w-8 h-8 flex items-center justify-center shadow-md text-rose-500">
+                            <i class="fa-solid fa-heart text-xs animate-pulse"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Love Counter Section -->
+            <div class="flex flex-col justify-center space-y-4">
+                <div class="glass-card-dark p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-28 h-28 bg-rose-200/50 rounded-full blur-2xl pointer-events-none"></div>
+                    
+                    <h2 class="text-lg sm:text-xl font-bold text-rose-800 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-rose-500"></i>
+                        <span>Tiempo de Amor Juntos</span>
+                    </h2>
+                    <p class="text-xs text-rose-600/80 mb-4">Cada segundo a tu lado es un regalo maravilloso</p>
+
+                    <!-- Counter Grid -->
+                    <div class="grid grid-cols-4 gap-2 text-center">
+                        <div class="bg-white/90 backdrop-blur p-2 sm:p-3 rounded-xl shadow-sm border border-rose-100 flex flex-col items-center">
+                            <span id="counterDays" class="text-xl sm:text-3xl font-bold text-rose-600 font-mono">60</span>
+                            <span class="text-[9px] sm:text-xs font-bold text-rose-400 uppercase tracking-wider mt-0.5">Días</span>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur p-2 sm:p-3 rounded-xl shadow-sm border border-rose-100 flex flex-col items-center">
+                            <span id="counterHours" class="text-xl sm:text-3xl font-bold text-rose-600 font-mono">00</span>
+                            <span class="text-[9px] sm:text-xs font-bold text-rose-400 uppercase tracking-wider mt-0.5">Horas</span>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur p-2 sm:p-3 rounded-xl shadow-sm border border-rose-100 flex flex-col items-center">
+                            <span id="counterMinutes" class="text-xl sm:text-3xl font-bold text-rose-600 font-mono">00</span>
+                            <span class="text-[9px] sm:text-xs font-bold text-rose-400 uppercase tracking-wider mt-0.5">Min</span>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur p-2 sm:p-3 rounded-xl shadow-sm border border-rose-100 flex flex-col items-center">
+                            <span id="counterSeconds" class="text-xl sm:text-3xl font-bold text-rose-600 font-mono">00</span>
+                            <span class="text-[9px] sm:text-xs font-bold text-rose-400 uppercase tracking-wider mt-0.5">Seg</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-rose-200/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-rose-700">
+                        <span class="flex items-center gap-1.5 font-medium text-xs">
+                            <i class="fa-solid fa-heart-pulse text-rose-500"></i>
+                            <span id="totalHoursApprox">~1,440 Horas</span>
+                        </span>
+                        <span id="startDateLabel" class="bg-rose-100 text-rose-600 px-2.5 py-1 rounded-full font-semibold text-[10px] sm:text-xs">
+                            Desde el 13 de Agosto
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Interactive Explosion Button -->
+                <button id="surpriseBtn" class="btn-shimmer text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2.5 transform active:scale-95 text-sm sm:text-base">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                    <span>¡Haz clic para una sorpresa dulce! 💖</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tulip Bouquet Section -->
+        <section class="glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 mb-8 text-center relative overflow-hidden">
+            <div class="max-w-xl mx-auto">
+                <span class="inline-block px-3 py-1 bg-pink-100 text-pink-600 font-bold text-xs rounded-full mb-2">
+                    🌷 Un Ramo Especial Para Ti
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-cursive text-rose-700 font-bold mb-1">
+                    Tus Tulipanes
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-600 mb-4 px-2">
+                    
+                </p>
+
+                <!-- Vector SVG Tulip Bouquet -->
+                <div class="relative flex justify-center items-center my-2 cursor-pointer group" id="tulipBouquetContainer">
+                    <div class="absolute w-40 h-40 sm:w-56 sm:h-56 bg-rose-300/30 rounded-full blur-3xl group-hover:bg-rose-400/40 transition-all duration-500"></div>
+
+                    <svg class="w-56 h-72 sm:w-72 sm:h-96 relative z-10 transition-transform duration-500 group-hover:scale-105 active:scale-95 animate-pulse-glow max-w-full" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Wrapper Ribbon -->
+                        <path d="M110 260 C 130 250, 170 250, 190 260 L 175 370 C 150 380, 130 380, 125 370 Z" fill="#FCE7F3" stroke="#F43F5E" stroke-width="2"/>
+                        <path d="M125 275 Q 150 285 175 275" stroke="#FB7185" stroke-width="3" fill="none"/>
+                        <path d="M150 270 C 135 260, 120 280, 150 290 C 180 280, 165 260, 150 270 Z" fill="#E11D48"/>
+                        <path d="M140 288 C 130 320, 115 340, 110 360" stroke="#E11D48" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M160 288 C 170 320, 185 340, 190 360" stroke="#E11D48" stroke-width="3" stroke-linecap="round"/>
+
+                        <!-- Stems -->
+                        <path d="M150 180 Q 148 230 145 270" stroke="#4ADE80" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M110 170 Q 125 220 138 270" stroke="#22C55E" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M190 170 Q 175 220 162 270" stroke="#22C55E" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M80 190 Q 110 230 130 270" stroke="#16A34A" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M220 190 Q 190 230 170 270" stroke="#16A34A" stroke-width="4" stroke-linecap="round"/>
+
+                        <!-- Leaves -->
+                        <path d="M115 220 C 80 200, 70 160, 95 180 C 110 195, 125 220, 125 230 Z" fill="#4ADE80" opacity="0.9"/>
+                        <path d="M185 220 C 220 200, 230 160, 205 180 C 190 195, 175 220, 175 230 Z" fill="#22C55E" opacity="0.9"/>
+
+                        <!-- Center Main Pink Tulip -->
+                        <g transform="translate(150, 140)">
+                            <path d="M-25 10 C-30 -20, -10 -45, 0 -50 C 10 -45, 30 -20, 25 10 C 15 25, -15 25, -25 10 Z" fill="#FB7185"/>
+                            <path d="M-20 10 C-30 -15, -5 -35, 0 -48 C 5 -35, 30 -15, 20 10 C 10 22, -10 22, -20 10 Z" fill="#F43F5E"/>
+                            <path d="M-12 12 C-20 -10, 0 -40, 0 -40 C 0 -40, 20 -10, 12 12 C 5 20, -5 20, -12 12 Z" fill="#E11D48"/>
+                        </g>
+
+                        <!-- Left Red Tulip -->
+                        <g transform="translate(100, 150) rotate(-18)">
+                            <path d="M-22 10 C-28 -18, -8 -40, 0 -45 C 8 -40, 28 -18, 22 10 C 12 22, -12 22, -22 10 Z" fill="#F43F5E"/>
+                            <path d="M-10 10 C-18 -10, 0 -38, 0 -38 C 0 -38, 18 -10, 10 10 Z" fill="#BE123C"/>
+                        </g>
+
+                        <!-- Right Purple/Pink Tulip -->
+                        <g transform="translate(200, 150) rotate(18)">
+                            <path d="M-22 10 C-28 -18, -8 -40, 0 -45 C 8 -40, 28 -18, 22 10 C 12 22, -12 22, -22 10 Z" fill="#F472B6"/>
+                            <path d="M-10 10 C-18 -10, 0 -38, 0 -38 C 0 -38, 18 -10, 10 10 Z" fill="#E11D48"/>
+                        </g>
+
+                        <!-- Top Center Soft Tulip -->
+                        <g transform="translate(150, 85) scale(0.85)">
+                            <path d="M-22 10 C-28 -18, -8 -40, 0 -45 C 8 -40, 28 -18, 22 10 C 12 22, -12 22, -22 10 Z" fill="#FDA4AF"/>
+                            <path d="M-10 10 C-18 -10, 0 -38, 0 -38 C 0 -38, 18 -10, 10 10 Z" fill="#FB7185"/>
+                        </g>
+
+                        <!-- Far Left Soft Yellow-Pink Tulip -->
+                        <g transform="translate(65, 175) rotate(-35) scale(0.75)">
+                            <path d="M-22 10 C-28 -18, -8 -40, 0 -45 C 8 -40, 28 -18, 22 10 Z" fill="#F43F5E"/>
+                            <path d="M-10 10 C-18 -10, 0 -38, 0 -38 C 0 -38, 18 -10, 10 10 Z" fill="#FB7185"/>
+                        </g>
+
+                        <!-- Far Right Pink Tulip -->
+                        <g transform="translate(235, 175) rotate(35) scale(0.75)">
+                            <path d="M-22 10 C-28 -18, -8 -40, 0 -45 C 8 -40, 28 -18, 22 10 Z" fill="#FB7185"/>
+                            <path d="M-10 10 C-18 -10, 0 -38, 0 -38 C 0 -38, 18 -10, 10 10 Z" fill="#E11D48"/>
+                        </g>
+
+                        <!-- Little Sparkles around -->
+                        <circle cx="150" cy="30" r="3" fill="#F43F5E" class="animate-ping"/>
+                        <circle cx="90" cy="70" r="2.5" fill="#FB7185" class="animate-pulse"/>
+                        <circle cx="210" cy="60" r="3" fill="#F472B6" class="animate-ping"/>
+                    </svg>
+                </div>
+
+                <p class="text-xs text-rose-500 font-semibold mt-1">💖</p>
+            </div>
+        </section>
+
+        <!-- Sweet Love Message Box -->
+        <section class="glass-card-dark p-5 sm:p-8 rounded-2xl sm:rounded-3xl text-center relative mb-8">
+            <i class="fa-solid fa-quote-left text-rose-300 text-2xl sm:text-3xl mb-2 block"></i>
+            <p id="customLoveMessage" class="font-serif-romantic italic text-sm sm:text-lg text-rose-900 leading-relaxed max-w-2xl mx-auto px-2">
+                "Gracias por estos dos primeros meses tan bonitos. Este es solo el comienzo de una historia maravillosa que quiero seguir escribiendo a tu lado. Te amo💖."
+            </p>
+            <p class="font-cursive text-xl sm:text-2xl text-rose-600 font-bold mt-3">
+                — Con todo mi amor 💖
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-xs text-rose-500/80 font-medium py-4">
+            <p>💖 💕 🌷 💕 💖</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Función para obtener la fecha del 13 de agosto más reciente (hace 2 meses)
+        function getAugust13StartDate() {
+            const now = new Date();
+            let year = now.getFullYear();
+            // Si la fecha actual es anterior al 13 de agosto, toma el 13 de agosto del año anterior
+            if (now.getMonth() < 7 || (now.getMonth() === 7 && now.getDate() < 13)) {
+                year -= 1;
+            }
+            return new Date(year, 7, 13, 0, 0, 0).toISOString();
+        }
+
+        // Default Configuration
+        const defaultConfig = {
+            partnerName: "Para el amor de mi vida 💕",
+            startDate: getAugust13StartDate(),
+            message: "Gracias por estos dos primeros meses tan bonitos. Este es solo el comienzo de una historia maravillosa que quiero seguir escribiendo a tu lado. Te quiero con todo mi corazón.",
+            photoUrl: "foto.jpg"
+        };
+
+        let currentConfig = { ...defaultConfig };
+
+        // Reiniciar configuración guardada previa para aplicar la nueva fecha correcta
+        try {
+            localStorage.removeItem('anniversary_config');
+        } catch(e) {}
+
+        let isPlayingMusic = false;
+
+        function toggleMusic() {
+            const audio = document.getElementById('bgAudio');
+            const btn = document.getElementById('musicBtn');
+            const icon = document.getElementById('musicIcon');
+            const text = document.getElementById('musicText');
+
+            if (!isPlayingMusic) {
+                audio.play().then(() => {
+                    isPlayingMusic = true;
+                    icon.className = 'fa-solid fa-volume-high text-rose-500 animate-bounce';
+                    text.innerText = 'Sonando ♪';
+                    btn.classList.add('bg-rose-100');
+                }).catch(err => {
+                    console.log("Error al reproducir audio:", err);
+                });
+            } else {
+                audio.pause();
+                isPlayingMusic = false;
+                icon.className = 'fa-solid fa-music text-rose-500';
+                text.innerText = 'Música';
+                btn.classList.remove('bg-rose-100');
+            }
+        }
+
+        // Canvas Particle Background (Petals & Hearts)
+        const canvas = document.getElementById('petalCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.03;
+                this.opacity = Math.random() * 0.5 + 0.4;
+                this.type = Math.random() > 0.4 ? 'petal' : 'heart';
+                this.color = ['#fda4af', '#f43f5e', '#fb7185', '#f472b6'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.rotation += this.rotSpeed;
+
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                if (this.type === 'heart') {
+                    ctx.beginPath();
+                    const s = this.size * 0.6;
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-s, -s, -s * 1.5, s * 0.5, 0, s * 1.5);
+                    ctx.bezierCurveTo(s * 1.5, s * 0.5, s, -s, 0, 0);
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size * 0.5, this.size, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 30; i++) {
+            const p = new Particle();
+            p.y = Math.random() * canvas.height;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Live Countdown Clock
+        function updateCounter() {
+            const start = new Date(currentConfig.startDate).getTime();
+            const now = new Date().getTime();
+            const diff = Math.max(0, now - start);
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('counterDays').innerText = String(days).padStart(2, '0');
+            document.getElementById('counterHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('counterMinutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('counterSeconds').innerText = String(seconds).padStart(2, '0');
+
+            const totalHours = Math.floor(diff / (1000 * 60 * 60));
+            document.getElementById('totalHoursApprox').innerText = `~${totalHours.toLocaleString()} Horas de Amor`;
+
+            const dateObj = new Date(currentConfig.startDate);
+            const formattedDate = dateObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+            document.getElementById('startDateLabel').innerText = `Desde el ${formattedDate}`;
+        }
+
+        setInterval(updateCounter, 1000);
+
+        // Render current config onto page
+        function applyConfig() {
+            document.getElementById('namesHeading').innerText = currentConfig.partnerName;
+            document.getElementById('customLoveMessage').innerText = `"${currentConfig.message}"`;
+            document.getElementById('couplePhoto').src = currentConfig.photoUrl;
+            updateCounter();
+        }
+
+        // Particle Burst Effect on Click
+        function createHeartBurst(x, y) {
+            for (let i = 0; i < 18; i++) {
+                const burst = document.createElement('div');
+                burst.innerHTML = '💖';
+                burst.style.position = 'fixed';
+                burst.style.left = `${x}px`;
+                burst.style.top = `${y}px`;
+                burst.style.fontSize = `${Math.random() * 16 + 14}px`;
+                burst.style.pointerEvents = 'none';
+                burst.style.zIndex = '9999';
+                burst.style.transition = 'all 1s ease-out';
+                
+                document.body.appendChild(burst);
+
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 100 + 40;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist - 30;
+
+                requestAnimationFrame(() => {
+                    burst.style.transform = `translate(${tx}px, ${ty}px) scale(1.5)`;
+                    burst.style.opacity = '0';
+                });
+
+                setTimeout(() => burst.remove(), 1000);
+            }
+        }
+
+        // Event Listeners Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            applyConfig();
+
+            // Music Button
+            document.getElementById('musicBtn').addEventListener('click', toggleMusic);
+
+            // Surprise Floating Hearts Button + Play Local Music
+            document.getElementById('surpriseBtn').addEventListener('click', (e) => {
+                const rect = e.target.getBoundingClientRect();
+                createHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                if (!isPlayingMusic) {
+                    toggleMusic();
+                }
+            });
+
+            // Tulip Bouquet Click Effect
+            document.getElementById('tulipBouquetContainer').addEventListener('click', (e) => {
+                createHeartBurst(e.clientX, e.clientY);
+            });
+        });
+    </script>
+</body>
+</html>
